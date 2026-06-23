@@ -8,8 +8,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <title>黑湖科技深度调研报告</title>
-<script src="./_shared/js/echarts.min.js"></script>
-<script src="./_shared/js/mermaid.min.js"></script>
+
+
 <style>
 :root {
   --bg: #f8fafc;
@@ -710,33 +710,8 @@ mark.key {
 
   <figure class="chart-figure">
     <figcaption>AI Agent 任务执行规模增长</figcaption>
-    <div id="chart-ai-growth" class="chart-container"></div>
+    <img src="assets/chart_ai_growth.png" alt="AI Agent 任务执行规模增长" style="width:100%;border-radius:6px;">
   </figure>
-
-
-  <div class="mermaid-wrap">
-    <figcaption>AI Agent 技术架构</figcaption>
-    <div class="mermaid" id="mermaid-ai">
-graph TD
-    A[工业数据层] --> B[数据融合引擎]
-    B --> C[行业知识图谱]
-    C --> D[AI Agent 调度中心]
-    D --> E1[设计Agent]
-    D --> E2[排程Agent]
-    D --> E3[生产Agent]
-    D --> E4[质检Agent]
-    D --> E5[采购Agent]
-    D --> E6[运维Agent]
-    E1 --> F[决策执行]
-    E2 --> F
-    E3 --> F
-    E4 --> F
-    E5 --> F
-    E6 --> F
-    F --> G[效果反馈与模型迭代]
-    G --> C
-    </div>
-  </div>
 
 </section>
 
@@ -767,7 +742,7 @@ graph TD
 
   <figure class="chart-figure">
     <figcaption>中国云化MES市场份额（2026年，IDC数据）</figcaption>
-    <div id="chart-market-share" class="chart-container"></div>
+    <img src="assets/chart_market_share.png" alt="中国云化MES市场份额" style="width:100%;border-radius:6px;">
   </figure>
 
 
@@ -842,7 +817,7 @@ graph TD
   <h3>行业竞争格局</h3>
   <figure class="chart-figure">
     <figcaption>黑湖科技 vs 主要竞争对手能力雷达图</figcaption>
-    <div id="chart-radar" class="chart-container"></div>
+    <img src="assets/chart_radar.png" alt="黑湖科技 vs 主要竞争对手能力雷达图" style="width:100%;border-radius:6px;">
   </figure>
 
 
@@ -1009,19 +984,6 @@ graph TD
   </div>
 
 
-  <div class="mermaid-wrap" style="margin-top: 1.5rem;">
-    <figcaption>医疗软件公司增长飞轮（借鉴黑湖模式）</figcaption>
-    <div class="mermaid" id="mermaid-flywheel">
-graph LR
-    A[轻量产品切入] --> B[数据沉淀积累]
-    B --> C[AI能力升级]
-    C --> D[口碑传播获客]
-    D --> E[企业客户渗透]
-    E --> F[生态扩展]
-    F --> B
-    </div>
-  </div>
-
 </section>
 
 <!-- Footer / Sources -->
@@ -1073,43 +1035,12 @@ graph LR
 <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-// ===== Mermaid init (mobile-safe) =====
-mermaid.initialize({
-  startOnLoad: false,
-  theme: 'neutral',
-  securityLevel: 'loose',
-  themeVariables: {
-    primaryColor: '#dbeafe',
-    primaryTextColor: '#1e293b',
-    primaryBorderColor: '#1e40af',
-    lineColor: '#64748b',
-    secondaryColor: '#f0f9ff',
-    tertiaryColor: '#f8fafc'
-  }
-});
-
-
-// Render mermaid diagrams manually after DOM ready
-function renderMermaid() {
-  var diagrams = document.querySelectorAll('.mermaid');
-  diagrams.forEach(function(el) {
-    var graphDefinition = el.textContent.trim();
-    mermaid.render('mermaid-' + Math.random().toString(36).substr(2, 9), graphDefinition)
-      .then(function(result) {
-        el.innerHTML = result.svg;
-      })
-      .catch(function(err) {
-        console.error('Mermaid render error:', err);
-        el.innerHTML = '<p style="color:#999;font-size:0.75rem;text-align:center;">图表加载中...</p>';
-      });
-  });
-}
-
 // ===== Mobile nav toggle =====
 function toggleNav() {
   var links = document.getElementById('navLinks');
   links.classList.toggle('open');
 }
+
 
 // Close nav when clicking a link
 var navLinks = document.querySelectorAll('.nav-links a');
@@ -1151,188 +1082,6 @@ document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
     if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
-
-// ===== ECharts (mobile-safe initialization) =====
-function initCharts() {
-  var style = getComputedStyle(document.documentElement);
-  var accent = style.getPropertyValue('--accent').trim() || '#1e40af';
-  var accent2 = style.getPropertyValue('--accent2').trim() || '#0ea5e9';
-  var ink = style.getPropertyValue('--ink').trim() || '#1e293b';
-  var muted = style.getPropertyValue('--muted').trim() || '#64748b';
-  var rule = style.getPropertyValue('--rule').trim() || '#e2e8f0';
-  var bg2 = style.getPropertyValue('--bg2').trim() || '#ffffff';
-
-  var isMobile = window.innerWidth < 768;
-
-  // --- Chart: AI Agent Task Growth ---
-  var elAi = document.getElementById('chart-ai-growth');
-  if (elAi) {
-    try {
-      var chartAi = echarts.init(elAi, null, { renderer: 'svg' });
-      chartAi.setOption({
-        animation: false,
-        tooltip: {
-          trigger: 'axis',
-          appendToBody: true,
-          axisPointer: { type: 'shadow' }
-        },
-        grid: { left: '3%', right: '4%', bottom: '3%', top: '15%', containLabel: true },
-        xAxis: {
-          type: 'category',
-          data: ['23Q1', '23Q2', '23Q3', '23Q4', '24Q1', '24Q2', '24Q3', '24Q4', '25Q1', '25Q2'],
-          axisLine: { lineStyle: { color: rule } },
-          axisLabel: { color: muted, fontSize: isMobile ? 9 : 11, rotate: isMobile ? 45 : 0 }
-        },
-        yAxis: {
-          type: 'value',
-          name: '累计任务（百万次）',
-          nameTextStyle: { color: muted, fontSize: isMobile ? 9 : 11 },
-          axisLine: { show: false },
-          splitLine: { lineStyle: { color: rule, type: 'dashed' } },
-          axisLabel: { color: muted, fontSize: isMobile ? 9 : 11 }
-        },
-        series: [{
-          name: 'AI Agent 累计任务',
-          type: 'bar',
-          data: [0.5, 1.2, 2.5, 4.8, 7.5, 10.2, 12.8, 14.5, 15.5, 16.0],
-          itemStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: accent2 },
-              { offset: 1, color: accent }
-            ]),
-            borderRadius: [3, 3, 0, 0]
-          },
-          barWidth: '55%'
-        }]
-      });
-      window.addEventListener('resize', function() { chartAi.resize(); });
-    } catch(e) { console.error('AI chart error:', e); }
-  }
-
-  // --- Chart: Market Share Pie ---
-  var elPie = document.getElementById('chart-market-share');
-  if (elPie) {
-    try {
-      var chartPie = echarts.init(elPie, null, { renderer: 'svg' });
-      chartPie.setOption({
-        animation: false,
-        tooltip: {
-          trigger: 'item',
-          appendToBody: true,
-          formatter: '{b}: {c}%'
-        },
-        legend: {
-          orient: isMobile ? 'horizontal' : 'vertical',
-          bottom: isMobile ? '0%' : undefined,
-          right: isMobile ? undefined : '5%',
-          top: isMobile ? undefined : 'center',
-          textStyle: { color: ink, fontSize: isMobile ? 10 : 12 }
-        },
-        series: [{
-          name: '云化MES市场份额',
-          type: 'pie',
-          radius: isMobile ? ['30%', '55%'] : ['40%', '70%'],
-          center: isMobile ? ['50%', '42%'] : ['40%', '50%'],
-          avoidLabelOverlap: true,
-          itemStyle: { borderRadius: 5, borderColor: bg2, borderWidth: 2 },
-          label: { show: !isMobile, formatter: '{b}\n{c}%', color: ink, fontSize: 11 },
-          labelLine: { lineStyle: { color: rule } },
-          data: [
-            { value: 52.7, name: '黑湖科技', itemStyle: { color: accent } },
-            { value: 19.6, name: '新核云', itemStyle: { color: accent2 } },
-            { value: 8.3, name: '其他本土', itemStyle: { color: '#94a3b8' } },
-            { value: 12.5, name: '西门子', itemStyle: { color: '#cbd5e1' } },
-            { value: 6.9, name: '其他国际', itemStyle: { color: '#e2e8f0' } }
-          ]
-        }]
-      });
-      window.addEventListener('resize', function() { chartPie.resize(); });
-    } catch(e) { console.error('Pie chart error:', e); }
-  }
-
-  // --- Chart: Competitive Radar ---
-  var elRadar = document.getElementById('chart-radar');
-  if (elRadar) {
-    try {
-      var chartRadar = echarts.init(elRadar, null, { renderer: 'svg' });
-      chartRadar.setOption({
-        animation: false,
-        tooltip: { appendToBody: true },
-        legend: {
-          bottom: '0%',
-          textStyle: { color: ink, fontSize: isMobile ? 9 : 12 },
-          itemWidth: isMobile ? 12 : 25,
-          itemHeight: isMobile ? 8 : 14
-        },
-        radar: {
-          indicator: [
-            { name: '云原生', max: 100 },
-            { name: 'AI能力', max: 100 },
-            { name: '客户覆盖', max: 100 },
-            { name: '行业经验', max: 100 },
-            { name: '部署速度', max: 100 },
-            { name: '生态合作', max: 100 },
-            { name: '性价比', max: 100 }
-          ],
-          shape: 'polygon',
-          splitNumber: 4,
-          axisName: { color: muted, fontSize: isMobile ? 8 : 11 },
-          splitLine: { lineStyle: { color: rule } },
-          splitArea: { show: true, areaStyle: { color: [bg2, 'rgba(30,64,175,0.02)'] } },
-          axisLine: { lineStyle: { color: rule } },
-          radius: isMobile ? '55%' : '65%',
-          center: ['50%', '48%']
-        },
-        series: [{
-          name: '能力对比',
-          type: 'radar',
-          data: [
-            {
-              value: [95, 90, 85, 80, 95, 75, 90],
-              name: '黑湖科技',
-              lineStyle: { color: accent, width: 2 },
-              areaStyle: { color: 'rgba(30,64,175,0.15)' },
-              itemStyle: { color: accent }
-            },
-            {
-              value: [60, 55, 70, 85, 40, 90, 50],
-              name: '西门子',
-              lineStyle: { color: '#94a3b8', width: 1.5 },
-              areaStyle: { color: 'rgba(148,163,184,0.12)' },
-              itemStyle: { color: '#94a3b8' }
-            },
-            {
-              value: [50, 45, 60, 75, 55, 60, 65],
-              name: '鼎捷MES',
-              lineStyle: { color: '#cbd5e1', width: 1.5 },
-              areaStyle: { color: 'rgba(203,213,225,0.10)' },
-              itemStyle: { color: '#cbd5e1' }
-            },
-            {
-              value: [80, 55, 70, 60, 80, 55, 85],
-              name: '新核云',
-              lineStyle: { color: accent2, width: 1.5 },
-              areaStyle: { color: 'rgba(14,165,233,0.12)' },
-              itemStyle: { color: accent2 }
-            }
-          ]
-        }]
-      });
-      window.addEventListener('resize', function() { chartRadar.resize(); });
-    } catch(e) { console.error('Radar chart error:', e); }
-  }
-}
-
-// ===== Initialize everything when DOM is ready =====
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', function() {
-    renderMermaid();
-    initCharts();
-  });
-} else {
-  renderMermaid();
-  initCharts();
-}
 </script>
 </body>
 </html>
